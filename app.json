@@ -1,5 +1,6 @@
 {
   "expo": {
+
     "name": "blog",
     "slug": "blog",
     "version": "1.0.0",
@@ -14,6 +15,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": ["expo-image-picker"],
     "ios": {
       "supportsTablet": true
     },
@@ -21,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sauravdikshit.blog"
     },
     "web": {
       "favicon": "./assets/favicon.png"
