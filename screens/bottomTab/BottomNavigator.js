@@ -1,28 +1,38 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text,} from "react-native";
+import React,{useState} from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "./tabScreen/Home";
 import Search from "./tabScreen/Search";
 import Bookmark from "./tabScreen/Bookmark";
-import Profile from "./tabScreen/Profile";
+import Profile from "./tabScreen/Profile"
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 const Tab = createMaterialBottomTabNavigator();
 
-export default function TabNavigation() {
+export default function BottomNavigator() {
+
+
+
+
+  
   return (
+
+
+
     <Tab.Navigator
      
       initialRouteName="Home"
       inactiveColor="#808080"
       activeColor="#000000"
-      shifting={true}
+      shifting={false}
       barStyle={{
-        backgroundColor: "#EBEBEB",
-        height:55,
-        position:"absolute",
+        height: 55,
+        backgroundColor: "#F5F5F5",
+       position:"absolute",
+       
         borderTopColor:"#cdcbca",
         borderTopWidth:0.9,
    
@@ -73,6 +83,7 @@ export default function TabNavigation() {
         }}
       />
     </Tab.Navigator>
+
    
 
   );

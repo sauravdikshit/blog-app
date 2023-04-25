@@ -1,94 +1,122 @@
-import { View, Text, SafeAreaView,FlatList,TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+  StatusBar,
+  Alert,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import TopicsCard from "../components/TopicsCard";
+import { LinearGradient } from "expo-linear-gradient";
+import * as selectedTopics from "../api/blogApi";
+import * as getTopic from "../api/blogApi";
 
-const Data = [
-  {
-    id: 1,
-    topic: "Java Script",
-    value: "js",
-  },
-  {
-      id: 2,
-      topic: "Java",
-      value: "java",
-    },
-    {
-      id: 3,
-      topic: "React Native",
-      value: "rn",
-    },
-    {
-      id: 4,
-      topic: "React JS",
-      value: "react",
-    },
 
-    {
-      id: 5,
-      topic: "Flutter",
-      value: "flutter",
-    },
+export default function Topics({ navigation }) {
+  const [selectedValue, setSelectedValue] = useState([]);
 
-    {
-      id: 6,
-      topic: "Next JS",
-      value: "next js",
-    },
+  const [getTopicsData, setTopicsData] = useState([]);
 
-    {
-      id: 7,
-      topic: "PHP",
-      value: "php",
-    },
+  const handleSelectOption = (item) => {
+    if (selectedValue.includes(item)) {
+      setSelectedValue(selectedValue.filter((value) => value !== item));
+    } else {
+      if(selectedValue.length < 5){
+        setSelectedValue([...selectedValue, item]);
+      }else{
+        Alert.alert('Limit Reached','You can only select upto 5 topics');
+      }
+      
+    }
+  };
 
-    {
-      id: 8,
-      topic: "Python",
-      value: "py",
-    },
-    {
-      id: 9,
-      topic: "Data Structure",
-      value: "ds",
-    },
 
-    {
-      id: 10,
-      topic: "GO",
-      value: "go",
-    },
+  const postTopics = async (data) => {
+    console.log("====================================");
+    console.log("calll");
+    console.log("====================================");
+    try {
+      console.log("====================================");
+      console.log("trycatch");
+      console.log("====================================");
 
-    {
-      id: 11,
-      topic: "Dot Net",
-      value: ".net",
-    },
-    {
-      id: 12,
-      topic: "IOT",
-      value: ".net",
-    },
- 
-];
+      const response = await selectedTopics.selectedTopics({
+       
 
-export default function Topics({navigation}) {
-  return <SafeAreaView className="  w-full h-full bg-[#EBEBEB]">
+        topics: selectedValue,
+      });
+      console.log("====================================");
+      console.log("response");
+      console.log("====================================");
+      if (response.data.message == "Selected topics added successfully") {
+        navigation.navigate("Follow");
+      } else {
+        console.log("Something is wrrong");
+      }
+      console.log(response.data);
+    } catch (error) {
+      if (error.response.status === 404) {
+        alert(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
+  };
 
-  <View className="w-full h-40 px-4">
-      <Text className="text-[#000000] text-[24px] mt-20" style={{fontFamily:"Poppins_600SemiBold"}}>Choose Topics</Text>
-  </View>
-       <View className=" flex-1  bottom-4 ">
+  console.log("====================================");
+  console.log("selected Value", selectedValue);
+  console.log("====================================");
+
+  useEffect(() => {
+    console.log("useeffect called");
+
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await getTopic.getTopics();
+      console.log(response.data);
+
+      setTopicsData(response.data);
+    } catch (error) {
+      console.log("Error");
+    }
+  };
+  console.log("getTopicsDatadata", getTopicsData);
+
+  return (
+    <>
+      <StatusBar backgroundColor="#000000" barStyle="light" />
+      <LinearGradient
+        className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
+        colors={["#0000", "#000", "#0000"]}
+        start={{ x: 5, y: 2 }}
+        end={{ y: 2, x: 0 }}
+      />
+
+      <View className="h-[35px] w-full mt-10 px-4">
+        <Text
+          className="text-[24px] top-4 text-[#1e1d1d]"
+          style={{ fontFamily: "Poppins_600SemiBold" }}
+        >
+          Choose Topics
+        </Text>
+      </View>
+      <View className=" flex-1 top-8 px-1 mb-4 ">
         <FlatList
-         showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           numColumns={2}
-          data={Data}
+          data={getTopicsData}
           keyExtractor={(item, index) => "key" + index}
           renderItem={({ item }) => {
             return (
               <TopicsCard
                 item={item}
-               
+                selectedValue={selectedValue}
+                handleSelectOption={handleSelectOption}
               />
             );
           }}
@@ -96,17 +124,20 @@ export default function Topics({navigation}) {
       </View>
 
       <View className="px-4   items-center  ">
-      <TouchableOpacity
-                  className="justify-center items-center bg-[#5C5C5C] rounded-[8px] w-[350px] h-[46px] bottom-2"
-                  onPress={()=>{navigation.navigate("Follow")}}
-                >
-                  <Text
-                    className="text-[#FFFFFF] text-[16px]"
-                    style={{ fontFamily: "Poppins_500Medium" }}
-                  >
-                 Next
-                  </Text>
-                </TouchableOpacity>
+        <TouchableOpacity
+          className="justify-center items-center bg-[#5C5C5C] rounded-[8px] w-[350px] h-[46px] bottom-2"
+          onPress={() => {
+            postTopics();
+          }}
+        >
+          <Text
+            className="text-[#FFFFFF] text-[16px]"
+            style={{ fontFamily: "Poppins_500Medium" }}
+          >
+            Next
+          </Text>
+        </TouchableOpacity>
       </View>
-  </SafeAreaView>;
+    </>
+  );
 }

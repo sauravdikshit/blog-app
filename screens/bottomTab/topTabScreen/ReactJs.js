@@ -78,8 +78,8 @@ const Data=[
 
 export default function ReactJs() {
   return (
-    <SafeAreaView className="w-full h-full bg-[#EBEBEB]">
-    <View className=" flex-1 mt-10 bottom-12">
+    <SafeAreaView className="w-full h-full bg-[#F5F5F5]">
+    <View className="flex-1 top-2 mb-16">
       <FlatList
       showsVerticalScrollIndicator={false}
       

@@ -1,11 +1,12 @@
 import { View, Text, FlatList, Dimensions } from "react-native";
 import React, { useState } from "react";
-import { TextInput } from "react-native-paper";
+import { TextInput,Appbar } from "react-native-paper";
 import ArticleCard from "../../../components/ArticleCard";
 import LottieView from "lottie-react-native";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 const { width, height } = Dimensions.get("window");
 
 const Data = [
@@ -156,18 +157,30 @@ export default function Search() {
     setFilteredData(newData);
   };
 
-  const renderItem = ({ item }) => <ArticleCard item={item} />;
+  // const renderItem = ({ item }) => <ArticleCard item={item} />;
   return (
-    <SafeAreaView className="w-full h-full ">
-      <View className="">
+    <SafeAreaView className=" w-full h-full bg-[#F5F5F5] ">
+   <Appbar.Header className="bg-[#F5F5F5] h-14 ">
+   <Appbar.Content title="Search" titleStyle={{fontFamily:"Poppins_500Medium",fontSize:20}}/>
+
+   </Appbar.Header>
+
+
+    {/* <LinearGradient 
+           className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
+            colors={['#0000',"#C4BFBF", '#000']}
+            start={{ x: 0, y: 2 }}
+            end={{ y: 0, x: 0.3 }}/> */}
+     
         {/* <TextInput
         placeholder="Search"
         onChangeText={(text) => handleSearch(text)}
         value={searchText}
       /> */}
-
+     
+<View className="px-4 bottom-2">
         <TextInput
-          className="bg-white  m-4 h-[50px] "
+          className="bg-white h-[45px] "
           mode="outlined"
           value={searchText}
           onChangeText={(text) => handleSearch(text)}
@@ -206,6 +219,7 @@ export default function Search() {
             )
           }
         />
+         </View>
         {filteredData === null ? (
           <View className="top-44" style={{ alignItems: "center", width }}>
             {/* <Image source={item.image} style={styles.introImageStyle} /> */}
@@ -224,16 +238,21 @@ export default function Search() {
               style={{ width: 200, height: 200 }}
             />
           </View>
+         
         ) : (
-          <View className=" flex- mt-12 bottom-14 ">
+          <View className="flex-1 mb-12 ">
             <FlatList
               data={filteredData}
-              renderItem={renderItem}
               keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+            return <ArticleCard item={item} />;
+          }}
+             
             />
           </View>
         )}
-      </View>
+     
+
     </SafeAreaView>
   );
 }

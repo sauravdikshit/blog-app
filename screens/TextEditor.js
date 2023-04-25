@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, createRef } from "react";
 import {
   Text,
   View,
@@ -8,23 +8,137 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
- 
   Image,
   Alert,
+  FlatList,
+  Pressable,
 } from "react-native";
-import { TextInput ,useTheme} from "react-native-paper";
-
+import { Appbar, TextInput, useTheme } from "react-native-paper";
+import { LinearGradient } from "expo-linear-gradient";
+import BottomSheet from "reanimated-bottom-sheet";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
-import * as ImageManipulator from "expo-image-manipulator";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { useNavigation, CommonActions } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function TextEditor() {
+  const navigation = useNavigation();
   const theme = useTheme();
+  const [value, setValue] = useState([""]);
   const [showInput, setShowInput] = useState(false);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
+  const [isTouchable, setIsTouchable] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const snapPoints = useMemo(() => ["60%", "0%"]);
+
+  const bs = createRef();
+
+  const Data = [
+    {
+      id: 1,
+      topic: "Java Script",
+      value: "js",
+      icon: "language-javascript",
+      color: "gold",
+    },
+    {
+      id: 2,
+      topic: "Java",
+      value: "java",
+      icon: "language-java",
+      color: "red",
+    },
+    {
+      id: 3,
+      topic: "React Native",
+      value: "rn",
+      icon: "react",
+      color: "#58D3F7",
+    },
+    {
+      id: 4,
+      topic: "Kotlin",
+      value: "kt",
+      icon: "language-kotlin",
+      color: "#FE2EF7",
+    },
+
+    {
+      id: 5,
+      topic: "Flutter",
+      value: "flutter",
+      icon: "alpha-f-box",
+      color: "#58D3F7",
+    },
+
+    {
+      id: 6,
+      topic: "Next JS",
+      value: "next js",
+      icon: "alpha-n-box",
+    },
+
+    {
+      id: 7,
+      topic: "PHP",
+      value: "php",
+      icon: "language-php",
+      color: "#8181F7",
+    },
+
+    {
+      id: 8,
+      topic: "Python",
+      value: "py",
+      icon: "language-python",
+    },
+    {
+      id: 9,
+      topic: "Data Structure",
+      value: "ds",
+      icon: "alpha-d-box",
+    },
+
+    {
+      id: 10,
+      topic: "GO",
+      value: "go",
+      icon: "language-go",
+      color: "#0000FF",
+    },
+
+    {
+      id: 11,
+      topic: "C-sharp",
+      value: ".net",
+      icon: "language-csharp",
+      color: "green",
+    },
+    {
+      id: 12,
+      topic: "IOT",
+      value: ".net",
+      icon: "devices",
+    },
+    {
+      id: 13,
+      topic: "TypeScript",
+      value: "ts",
+      icon: "language-typescript",
+      color: "#0174DF",
+    },
+    {
+      id: 14,
+      topic: "React JS",
+      value: "react",
+      icon: "react",
+      color: "#58D3F7",
+    },
+  ];
+
   const toggleInput = () => {
     setShowInput(!showInput);
   };
@@ -35,78 +149,17 @@ export default function TextEditor() {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
     })();
-  }, []);
 
-  //   const imageDir = FileSystem.cacheDirectory + "Article/";
-  //   const imageFileUri = (imageName) =>
-  //     imageDir + `Article_${imageName}_post.png`;
+    const uploadImage = async()=>{
+          
+    }
 
-  //   async function ensureDirExists() {
-  //     const dirInfo = await FileSystem.getInfoAsync(imageDir);
-  //     if (!dirInfo.exists) {
-  //       console.log("Image directory doesn't exist, creating...");
-  //       await FileSystem.makeDirectoryAsync(imageDir, { intermediates: true });
-  //     }
-  //   }
+    if(image!=null){
+      uploadImage()
+      setImage(null)
 
-  //   const getSingleImage = async (imageName, imageId) => {
-  //     try {
-  //       await ensureDirExists();
-
-  //       const fileUri = imageFileUri(imageName);
-  //       const fileInfo = await FileSystem.getInfoAsync(fileUri);
-
-  //       if (!fileInfo.exists) {
-  //         // console.log("Image isn't cached locally. Downloading...");
-
-  //         let options = {
-  //           from: imageId,
-  //           to: fileUri,
-  //         };
-  //         await FileSystem.copyAsync(options);
-  //       }
-
-  //       return fileUri;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //  const pickImage = async () => {
-
-  //     const galleryStatus =
-  //     await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   if (!galleryStatus.granted) {
-  //     Alert.alert("Permission denied");
-  //   }
-
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //       base64:true,
-
-  //     });
-  //     var imageSize = result.base64.length * (3 / 4) - 2;
-
-  //     if (!result.canceled) {
-  //       console.log(imageSize, "imageSize");
-  //       if (imageSize < 3000000) {
-  //         const manipResult = await ImageManipulator.manipulateAsync(
-  //            result.assets,
-  //           [{ resize: { height: 1000, width: 1000 } }],
-  //           { compress: 1, format: ImageManipulator.SaveFormat.PNG }
-  //         );
-  //         let imagefile = await getSingleImage(Date.now(), manipResult.uri);
-  //         console.log(imagefile, "myimageFile");
-
-  //         setImage(imagefile);
-  //       } else {
-  //         Alert.alert("File is too large! MAX-SIZE is 1MB ");
-  //       }
-  //     }
-  //   };
+    }
+  }, [image]);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -123,41 +176,109 @@ export default function TextEditor() {
 
       if (!result.canceled) {
         setImage(result.assets[0].uri);
-       
       }
     } catch (error) {
       console.log("error reading an image");
     }
   };
-  console.log("image" ,image)
+  console.log("image", image);
 
+  const handleSnapPress = async (choosen) => {
+    console.log("Start BottomSheet..");
+
+    bs.current.snapTo(0);
+  };
+
+  const Item = ({ title, onPress, name, color }) => (
+    <View className=" border-b-[0.5px] border-b-[#bcbcbc] w-full">
+      <TouchableOpacity onPress={onPress}>
+        <View className=" flex-row  items-center p-2 ml-4 ">
+          <MaterialCommunityIcons name={name} size={40} color={color} />
+
+          <View>
+            <Text
+              className="text-[17px] ml-8 text-[#090909]"
+              style={{ fontFamily: "Poppins_600SemiBold" }}
+            >
+              {title}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <Item
+      name={item.icon}
+      color={item.color}
+      title={item.topic}
+      onPress={() => {
+        setValue([item.icon, item.topic, item.color]), bs.current.snapTo(1);
+      }}
+    />
+  );
+  console.log("Topic Data", value);
+
+  const renderInner = () => (
+    <>
+      {/* <LinearGradient
+        className=" absolute  w-full h-full left-0 right-0 bottom-0 top-2 border-[0.5px] border-[#c5c7c5] rounded-t-3xl"
+        colors={["#000000", "#c5c7c5", "#000000"]}
+        start={{ x: 0, y: 2 }}
+        end={{ y: 0, x: 0.3 }}
+      /> */}
+      <View className="  w-full h-full left-0 right-0 bottom-0 top-0 border-[0.5px] border-[#131413] rounded-t-3xl bg-[#000000]">
+        <View className="flex-grow w-full h-full border-[0.5px] border-[#2a2a2a] px-2 rounded-t-3xl top-2 bg-[#ffffffd8]">
+          <View className="mt-2 items-center">
+            <View className="w-8 h-1.5 rounded-[10px]"></View>
+            <View className=" mb-8 top-2 w-full">
+              <FlatList
+                scrollEnabled={true}
+                showsVerticalScrollIndicator={false}
+                data={Data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </>
+  );
 
   return (
     <KeyboardAvoidingView
+      style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex flex-1"
     >
-      <SafeAreaView className=" w-full h-full bg-[#EBEBEB]">
-        <ScrollView className=" flex-1 px-6">
-          <View className="mt-14 left-64 ">
-            <TouchableOpacity className="h-[32px] w-[75px] bg-black rounded-[10px] items-center justify-center p-[5px]">
-              <Text
-                className="text-white text-[14px]  "
-                style={{ fontFamily: "Poppins_400Regular" }}
-              >
-                Publish
-              </Text>
-            </TouchableOpacity>
+      <SafeAreaView className="  w-full h-full">
+        <LinearGradient
+          className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
+          colors={["white", "transparent"]}
+          start={{ x: 0, y: 5 }}
+          end={{ y: 4, x: 0 }}
+        />
+        <TouchableWithoutFeedback
+          className="top-4 ml-4  flex-auto h-12 w-16"
+          onPress={() => {
+            navigation.navigate("MainScreen");
+          }}
+        >
+          <View>
+            <Icon name="clear" size={28} color={"#808080"} />
           </View>
+        </TouchableWithoutFeedback>
 
-          <View className="flex-row mt-12 w-full h-14  space-x-6">
+        <ScrollView className=" flex-1 px-6">
+          <View className="flex-row mt-16 w-full h-14 space-x-4 ">
             <TouchableOpacity
-              className=" flex-row items-center justify-center rounded-[20px] bg-[#D5D5D5] w-[120px] h-[35px] space-x-2 "
+              className=" flex-row items-center justify-center rounded-[20px] bg-[#D5D5D5] w-[140px] h-[40px] space-x-2 p-2"
               onPress={pickImage}
             >
-              <MaterialCommunityIcons name="image" size={18} />
+              <MaterialCommunityIcons name="image" size={22} />
               <Text
-                className="text-black text-[13px]"
+                className="text-black text-[13px] top-[1px]"
                 style={{ fontFamily: "Poppins_500Medium" }}
               >
                 Add Cover
@@ -165,91 +286,172 @@ export default function TextEditor() {
             </TouchableOpacity>
             {showInput === false ? (
               <TouchableOpacity
-              className=" flex-row items-center justify-center rounded-[20px] bg-[#D5D5D5] w-[134px] h-[35px] space-x-2"
-              onPress={toggleInput}
+                className=" flex-row items-center justify-center rounded-[20px] bg-[#D5D5D5] w-[140px] h-[40px]  space-x-2"
+                onPress={toggleInput}
+              >
+                <MaterialCommunityIcons name="plus" size={22} />
+                <Text
+                  className="text-black text-[13px] top-[1px]"
+                  style={{ fontFamily: "Poppins_500Medium" }}
+                >
+                  Add Subtitle
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
+          </View>
+          {value == "" ? (
+            <TouchableOpacity
+              className=" flex-row items-center  rounded-[20px] bg-[#D5D5D5] w-[140px] h-[40px] space-x-2  "
+              onPress={handleSnapPress}
             >
-              <MaterialCommunityIcons name="plus" size={18} />
+              <MaterialCommunityIcons
+                name="plus"
+                size={20}
+                style={{ marginLeft: 10 }}
+              />
               <Text
-                className="text-black text-[13px]"
+                className="text-black text-[13px] top-[1px]"
                 style={{ fontFamily: "Poppins_500Medium" }}
               >
-                Add subtitle
+                Choose Topic
               </Text>
             </TouchableOpacity>
-            ):(<></>)}
-          
-          </View>
-          {/* {image  !=  null ? (
-        <View className="mt-2">
-        <Image
-          className=" w-full h-[184px]"
-          source={{
-              uri: image,
-            }}
-        />
-      </View>
-       ):(<></>)} */}
-          {image && (
-            <View className=" relative ">
-            <Image source={{ uri: image }} className=" w-full h-[184px]" />
-            <View className="absolute top-0 right-0">
-            <MaterialCommunityIcons className="" name="close-box" size={30} color="#FFFFFF" onPress={()=>{setImage(null)}}/>
-
-            </View>
-           
-
-            </View>
-           
+          ) : (
+            <TouchableOpacity
+              className=" flex-row items-center justify-center rounded-[20px] bg-[#D5D5D5] w-[140px] h-[40px] space-x-2"
+              onPress={handleSnapPress}
+            >
+              <MaterialCommunityIcons
+                name={value[0]}
+                size={20}
+                style={{ marginLeft: 2 }}
+                color={value[2]}
+              />
+              <Text
+                className="text-black text-[13px] top-[1px]"
+                style={{ fontFamily: "Poppins_500Medium" }}
+              >
+                {value[1]}
+              </Text>
+            </TouchableOpacity>
           )}
 
-          <View className=" mt-4 w-full">
-            <TextInput
-            
-              placeholder="Article Title.."
-              cursorColor="#000000"
-              textColor="#000000"
-              multiline={true}
+          {image && (
+            <View className=" relative mt-8">
+              <Image source={{ uri: image }} className=" w-full h-[184px]" />
+              <View className="absolute top-0 right-0">
+                <MaterialCommunityIcons
+                  className=""
+                  name="close-box"
+                  size={30}
+                  color="#000"
+                  onPress={() => {
+                    setImage(null);
+                  }}
+                />
+              </View>
+            </View>
+          )}
 
-              style={{ fontSize: 30, fontFamily: "Poppins_600SemiBold",backgroundColor:"transparent"}}
+          <View className=" mt-8 w-full">
+            <TextInput
+              placeholder="Article Title"
+              placeholderTextColor={"#848484"}
+              cursorColor="#000000"
+              textColor="#050606"
+              activeUnderlineColor="transparent"
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              selectionColor={"black"}
+              multiline={true}
+              style={{
+                fontSize: 25,
+                fontFamily: "Poppins_600SemiBold",
+                backgroundColor: "transparent",
+              }}
             />
           </View>
           {showInput && (
             <View className="w-full relative mt-4">
-
-          
-          
               <TextInput
-                
                 placeholder="Article Subtitle"
-                cursorColor="#000000"
-                textColor="#000000"
+                placeholderTextColor={"#848484"}
+                cursorColor={"#000000"}
+                selectionColor={"black"}
+                textColor="#050606"
+                activeUnderlineColor="transparent"
+                activeOutlineColor="transparent"
                 multiline={true}
-
-                style={{ fontSize: 25, fontFamily:"Poppins_500Medium",backgroundColor:"transparent"}}
-              
+                style={{
+                  fontSize: 20,
+                  fontFamily: "Poppins_500Medium",
+                  backgroundColor: "transparent",
+                }}
               />
-              
-          
-            <View className="absolute top-0 bottom-0 right-0">
-            <MaterialCommunityIcons className="" name="close" size={20} color="#000000" onPress={()=>{setShowInput(!showInput)}}/>
 
-            </View>
-           
+              <View className="absolute top-1 bottom-0 right-0 ">
+                <MaterialCommunityIcons
+                  name="close"
+                  size={24}
+                  color="#FFFFFF"
+                  onPress={() => {
+                    setShowInput(!showInput);
+                  }}
+                />
+              </View>
             </View>
           )}
 
-          <View className=" mt-4">
+          <View className=" mt-4 ">
             <TextInput
-              // className="h-60"
-
-              placeholder="Start writing"
+              className="text-[#FFFF]"
+              placeholder="Start writing..."
+              placeholderTextColor={"#848484"}
               cursorColor={"#000000"}
-              textColor="#000000"
+              selectionColor={"black"}
+              textColor="#050606"
+              activeUnderlineColor="transparent"
+              activeOutlineColor="transparent"
               multiline={true}
-              style={{ fontSize: 22, fontFamily: "Poppins_400Regular",backgroundColor:"transparent" }}
+              style={{
+                fontSize: 19,
+                fontFamily: "Poppins_400Regular",
+                backgroundColor: "transparent",
+              }}
             />
           </View>
         </ScrollView>
+
+        <View className="px-4 items-center bottom-0 ">
+          <TouchableOpacity
+            className="justify-center items-center bg-[#5C5C5C] rounded-[8px]  w-[350px] h-[46px] bottom-2"
+            onPress={() => {
+              alert("Publish");
+            }}
+          >
+            <Text
+              className="text-[#FFFFFF] text-[16px]"
+              style={{ fontFamily: "Poppins_500Medium" }}
+            >
+              Publish
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <BottomSheet
+          ref={bs}
+          initialSnap={1}
+          snapPoints={snapPoints}
+          enabledGestureInteraction={false}
+          renderContent={renderInner}
+          enabledInnerScrolling={true}
+
+          // onCloseEnd={() => {
+          //   setIsOpen(false);
+          //   setIsTouchable(false);
+          // }}
+        />
       </SafeAreaView>
     </KeyboardAvoidingView>
   );

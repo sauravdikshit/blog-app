@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+
 import React, { useState, useRef } from "react";
 import {
   View,
@@ -6,7 +6,10 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
+
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -51,7 +54,7 @@ const Slide = ({ item }) => {
 
       <View className="mt-10">
         <Text
-          className="text-center text-2xl text-[#FFFFFF]"
+          className="text-center text-2xl text-[#1e1d1d]"
           style={{ fontFamily: "Poppins_700Bold" }}
         >
           {item.title}
@@ -85,7 +88,7 @@ export default function Intro({ navigation }) {
           </View>
         </View>
 
-        <View className=" w-full mb-28 px-4 items-center">
+        <View className=" w-full mb-10 px-4 items-center">
           <TouchableOpacity
             className="justify-center items-center bg-[#5C5C5C] rounded w-[350px] h-[46px]"
             onPress={goToNextSlide}
@@ -121,8 +124,16 @@ export default function Intro({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex 1 h-full w-full bg-[#000000]">
-      <StatusBar backgroundColor={"#FFFFFF"} />
+<>
+<LinearGradient
+          className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
+          colors={["#0000", "#000", "#0000"]}
+          start={{ x: 5, y: 2 }}
+          end={{ y: 2, x: 0 }}/>
+      <StatusBar
+        backgroundColor="#000000"
+        barStyle="light"
+      />
       <FlatList
         style={{ marginTop: "20%" }}
         ref={ref}
@@ -135,7 +146,7 @@ export default function Intro({ navigation }) {
         renderItem={({ item }) => <Slide item={item} />}
       ></FlatList>
       <Footer />
-    </SafeAreaView>
+      </>
   );
 }
 const styles = StyleSheet.create({

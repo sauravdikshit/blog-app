@@ -11,7 +11,7 @@ const Data=[
     title:"Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     subtitle:"Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     coverimage:"https://firebasestorage.googleapis.com/v0/b/myapp-cbe31.appspot.com/o/react-native-1536x864.png?alt=media&token=498eb887-ef21-4e96-8730-0616249d12fe",
-    views:"124"
+  views:"124"  
 
 
 },
@@ -79,8 +79,8 @@ const Data=[
 
 export default function Angular() {
   return (
-    <SafeAreaView className="w-full h-full bg-[#EBEBEB]">
-    <View className=" flex-1 mt-10 bottom-12">
+    <SafeAreaView className="w-full h-full bg-[#F5F5F5]">
+    <View className=" flex-1 top-2 mb-16">
       <FlatList
       showsVerticalScrollIndicator={false}
       

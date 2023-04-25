@@ -1,16 +1,20 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Divider } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function ArticleCard({item}) {
   const [color,setColor] = useState("#808080")
   const [select, setSelect] = useState("1");
-  const [likeCount, setLikeCount] = useState(0);
+  const [bookmark,setBookmark] = useState("1")
+  // const [likeCount, setLikeCount] = useState(0);
+  const navigation = useNavigation();
 
-  const handleLike = () => {
-    setLikeCount(likeCount + 1);
-  };
+
+
+  // const handleLike =   () => setLikeCount(prevCount => prevCount + 1);
 
 
   // const getToatal = () => {
@@ -22,7 +26,7 @@ export default function ArticleCard({item}) {
   // };
   return (
  
-    <View className="mt-4 border-b-[0.4px] border-b-[#bcbcbc] ">
+    <View className="">
     <View className="px-4">
     <View className=" flex-row items-center space-x-2 ">
         <Image
@@ -46,6 +50,8 @@ export default function ArticleCard({item}) {
           </Text>
         </View>
       </View>
+      <TouchableWithoutFeedback         
+        onPress={() => navigation.navigate("ArticleDetails", { item } )}>
       <View className="flex-col mt-2 space-y-1">
         <Text className="text-[19px]" style={{ fontFamily: "Poppins_700Bold" }}>
           {item.title}
@@ -65,6 +71,12 @@ export default function ArticleCard({item}) {
             }}
         />
       </View>
+  
+      </TouchableWithoutFeedback>
+     <View className="flex-row items-center justify-between top-1">
+
+    
+
       {select==="1" ? (
         <View className="m-2 right-2 ">
       <View className="flex-row space-x-2  items-center">
@@ -85,12 +97,21 @@ export default function ArticleCard({item}) {
 
       </View>
       )}
+      {bookmark==="1"?(
+        <MaterialCommunityIcons name="bookmark-outline" size={25} color={"#808080"} onPress={()=>{setBookmark("2")}}/>
+      ):(
+        <MaterialCommunityIcons name="bookmark" size={25} color={"#000000"} onPress={()=>{setBookmark("1")}}/>
+      )}
+
+     
+
+      </View>
    
      
       
     </View>
 
-      
+      <Divider className="top-1 mb-4 border-[0.2px] border-[#9d9c9c88] "/>
     </View>
    
   

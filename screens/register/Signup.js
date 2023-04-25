@@ -6,100 +6,222 @@ import {
   Platform,
   TouchableOpacity,
   Text,
-  ScrollView,
+Alert,
   Pressable
 } from "react-native";
-import React ,{useState} from "react";
+import React ,{useState,useMemo} from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { TextInput } from "react-native-paper";
+import {useTheme } from "react-native-paper";
 
+import Form from "../../components/Form/context";
+import FormField from "../../components/Form/FormField";
+import { SPEC } from "../../specifications/form-field-specs";
+import FormSubmit from "../../components/Form/FormSubmit";
+import { ScrollView } from "react-native-gesture-handler";
+import * as RegistrationApi from '../../api/blogApi'
 
 export default function Signup({navigation}) {
-  const [value, onChangeText] = React.useState("Useless Multiline Placeholder");
+  const theme = useTheme();
+  const [name,setName] =useState("Saurav Kumar")
+  const [username, setUserName] = useState("@Saurav");
+
+  const [userEmail, setUserEmail] = useState("sauravkumar937@gmail.com");
+  const [userPassword, setUserPassword] = useState("Saurav@0");
+  const [confirmPassword, setConfirmPassword] = useState("Saurav@0");
   const [hidePass, setHidePass] = useState(true);
+  const [confhidePass, setConfHidePass] = useState(true);
+
+  const nameValidations = useMemo(
+    () => [SPEC.NAME_REQUIRED, SPEC.NAME_VALID],
+    []
+  );
+
+  const emailValidations = useMemo(() => [
+    SPEC.EMAIL_REQUIRED,
+    SPEC.EMAIL_FORMAT_INVALID,
+  ]);
+  const userNameValidations = useMemo(() => [
+    SPEC. USERNAME_REQUIRED,
+    SPEC.USERNAME_VALID,
+  ]);
+  const passwordValidations = useMemo(() => [
+    SPEC.PASSWORD_REQUIRED,
+    SPEC.PASSWORD_FORMAT_INVALID,
+  ]);
+
+  const registerUser = async (data) => {
+    try {
+      const response = await RegistrationApi.userRegistration({
+        name: name,
+        username: username,
+        email: userEmail,
+        password: confirmPassword,
+      });
+      if(response.data.message =="Registered Successfully!"){
+       
+            navigation.navigate("Login")
+            Alert.alert(response.data.message);
+           
+      }else{
+            console.log("Something is wrrong");
+      }
+      console.log(response.data);
+    } catch (error) {
+      if (error.response.status === 400) {
+        alert(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex flex-1 "
+    
     >
-      <SafeAreaView className="w-full h-full">
-
-        <View className="relative justify-center ">
+      <SafeAreaView className=" w-full h-full">
+     
+         <View  className="absolute w-full h-full flex flex-col justify-between top-0">
         
-          <Image
-            className="w-full h-full"
-            source={require("../../assets/student.jpg")}
-          />
-          <LinearGradient
-            // Background Linear Gradient
-            colors={["rgba(0,0,0,8)", "#000a", "rgba(0,0,0,8)"]}
-            className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
-          />
-
-          <View className="absolute w-full h-full flex flex-col justify-between top-0">
+        <Image
+          className="w-full h-full"
+          source={require("../../assets/student.jpg")}
+        /> 
+        </View>
+        <LinearGradient
+          className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
+          colors={["rgba(0,0,0,8)", "#000a", "rgba(0,0,0,8)"]}
+          start={{ x: 3, y: 1 }}
+          end={{ y: -1, x: 2 }}
+        />
+       
+      
+         
+<ScrollView className="bottom-8">
+<View className="absolute w-full h-full flex flex-col justify-between top-0">
             <View className="flex justify-center items-center h-4/6">
               <Image
-                className="w-24 h-28 mt-2"
+                className="w-[80px] h-[90px] mb-40"
                 source={require("../../assets/icon-blog.png")}
               />
             </View>
-            <View className="self-center  bottom-24" style={{height: 300}}>
-              <View className="items-center   gap-4 ">
-              <TextInput
-                  
-                  className="w-[350px]"
-                  outlineStyle={{
-                    borderColor: "transparent",
-                    borderRadius:8
-                  }}
-                  left={<TextInput.Icon icon={"account"} />}
-                  editable
-                  mode="outlined"
-                  placeholder="Username"
-                />
-                <TextInput
-                  
-                  className="w-[350px]"
-                  outlineStyle={{
-                    borderColor: "transparent",
-                    borderRadius:8
-                  }}
-                  left={<TextInput.Icon icon={"email"} />}
-                  editable
-                  mode="outlined"
-                  placeholder="Email"
-                />
-                <TextInput
-                  
-                  className="w-[350px]"
-                  outlineStyle={{
-                    borderColor: "transparent",
-                    borderRadius:8
-                  }}
-                  secureTextEntry={hidePass ? true : false}
-                  right={<TextInput.Icon icon={"eye"}
-                  onPress={() => setHidePass(!hidePass)} />}
-                  editable
-                  mode="outlined"
-                  placeholder="Password"
-                />
-              
+            </View>
+
+      
+        
+          
+              <View className=" relative items-center mt-80 ">
+          
+                <Form>
+            <FormField
+              required
              
-                 <TouchableOpacity
-                  className="justify-center items-center bg-[#5C5C5C] rounded-[8px] w-[350px] h-[46px]"
-                  onPress={()=>{navigation.navigate("Topics")}}
-                >
-                  <Text
-                    className="text-[#FFFFFF] text-[16px]"
-                    style={{ fontFamily: "Poppins_500Medium" }}
-                  >
-                   Sign Up
-                  </Text>
-                </TouchableOpacity>
+              keyboardType="default"
+              placeholder="Full Name"
+              mode="outlined"
+             iconLeft="account"
+              value={name}
+              onChangeText={setName}
+              className="mt-8 px-4"
+              limit={18}
+              validations={nameValidations}
+            />
+             <FormField
+              required
+              keyboardType="default"
+              placeholder="@Username"
+              mode="outlined"
+              iconLeft="at"
+              editable
+              value={username}
+              onChangeText={setUserName}
+              className="mt-4 px-4"
+              limit={18}
+              validations={userNameValidations}
+            />
+            <FormField
+              required
+              keyboardType="default"
+              placeholder="Email"
+              mode="outlined"
+              iconLeft="email"
+              editable
+              value={userEmail}
+              onChangeText={setUserEmail}
+              className="mt-4 px-4"
+              validations={emailValidations}
+            />
+            <FormField
+         
+              keyboardType="default"
+              placeholder="Password"
+              mode="outlined"
+              iconLeft="form-textbox-password"
+              value={userPassword}
+              onChangeText={setUserPassword}
+              className="mt-4 px-4"
+              limit={8}
+              validations={passwordValidations}
+              secureTextEntry={confhidePass ? true : false}
+              icon="eye"
+              onPress={() => setConfHidePass(!confhidePass)}
+            />
+            <FormField
+            
+              keyboardType="default"
+              placeholder="Confirm Password"
+              mode="outlined"
+             iconLeft="form-textbox-password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              className="mt-4 px-4"
+              limit={8}
+              validations={passwordValidations}
+              secureTextEntry={hidePass ? true : false}
+              icon="eye"
+              onPress={() => setHidePass(!hidePass)}
+            />
+            <FormSubmit
+             className="justify-center items-center bg-[#808080]  rounded-[8px] w-[360px] h-[46px] mt-4 px-4"
+             mode="contained"
+            
+              
+              onPress={() => {
+                if (userPassword === confirmPassword) {
+                  registerUser();
+                } else {
+                  alert("Password is not match");
+                }
+              }}
+            
+            >
+              <Text
+               className="text-[#FFFFFF] text-[16px]"
+                    style={{  fontFamily: "Poppins_500Medium" }}
+              >
+                SIGNUP
+              </Text>
+            </FormSubmit>
+            {/* <Button
+            className="bg-green-600 rounded-full top-8 h-12 bottom-8 m-20 justify-center"
+            onPress={() => {
+              navigation.navigate("Login" ,{name:name})
+            }}
+          >
+            <Text className="text-white text-base">send data</Text>
+          </Button> */}
+          </Form>
 
                
               </View>
-              <View className="flex-row justify-between mt-20">
+             
+         
+        
+
+</ScrollView>
+<View className="px-4 mb-4">
+  
+ <View className="flex-row justify-between">
                 <Text className="text-white text-[14px]" style={{ fontFamily: "Poppins_500Medium" }}>Forgot Password</Text>
 
                 <Pressable  onPress={()=>{navigation.navigate("Login")}}>
@@ -108,11 +230,11 @@ export default function Signup({navigation}) {
                 </Pressable>
                
               </View>
-            </View>
-          </View>
-        </View>
-
+              
+</View>
       </SafeAreaView>
+
+
     </KeyboardAvoidingView>
   );
 }

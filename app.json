@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.sauravdikshit.blog"
+      "package": "com.weirdinventor.blogapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
