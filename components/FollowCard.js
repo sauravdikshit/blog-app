@@ -2,22 +2,24 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 export default function FollowCard({ item ,onFollowStatusChange,onFollowStatusChangeUnsub}) {
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(item.isfollowing);
    console.log('====================================');
    console.log("follow Status",isFollowing);
    console.log('====================================');
-  const handleFollowToggle = () => {
+   const handleFollowToggle = () => {
     setIsFollowing(!isFollowing);
-    onFollowStatusChange(item._id, !isFollowing);
-
   
-    //  // call the callback function with user id and new follow status
-  };
-
-  const handleFollowToggleUnsub = ()=>{
-    setIsFollowing(false);
-    onFollowStatusChangeUnsub(item._id,isFollowing)
-  }
+    if (!isFollowing) {
+      // user is being followed
+      onFollowStatusChange(item._id, true);
+    } else {
+      // user is being unfollowed
+      onFollowStatusChangeUnsub(item._id, false);
+    }
+  
+   
+     //  // call the callback function with user id and new follow status
+   };
   return (
     <View className=" flex-1  items-center p-4 bottom-2 ">
       <View className="w-[168px] h-[190px] rounded-[12px]  border-[0.5px]  bg-[#FFFFFF]">
@@ -30,57 +32,41 @@ export default function FollowCard({ item ,onFollowStatusChange,onFollowStatusCh
           />
           <View className="w-[150px] h-[40px] items-center top-8">
             <Text
-              className=" text-[14px]"
+              className=" text-[16px]"
               style={{ fontFamily: "Poppins_500Medium" }}
             >
               {item.name}
             </Text>
           </View>
-          {isFollowing === false ? (
-            <View className="  bg-[#111111] top-10 justify-center  rounded-[12px] ">
-              <TouchableOpacity
-                className=" w-[90px] h-[28px] items-center justify-center p-1 "
-                onPress={
-                  handleFollowToggle
-                }
-              >
-                <Text
-                  className="text-[#FFFFFF] text-[13px]"
-                  style={{ fontFamily: "Poppins_400Regular" }}
-                >
-                  Subscribe
-                </Text>
-              </TouchableOpacity>
-            </View>
-            
-          ) : (
-      
 
+          <View className="w-[150px] h-[40px] items-center top-3">
+            <Text
+              className=" text-[12px]"
+              style={{ fontFamily: "Poppins_300Light" }}
+            >
+              {item.username}
+            </Text>
+          </View>
+        
+        
 
-
-            <View className="   bg-[#00cc00] top-10 justify-center  rounded-[12px] ">
-              <TouchableOpacity
-                className=" w-[86px] h-[28px] items-center justify-center p-1 "
-                onPress={
-                  handleFollowToggleUnsub
-                }
-              >
-                <Text
-                  className="text-[#FFFFFF] text-[13px]"
-                  style={{ fontFamily: "Poppins_400Regular" }}
-                >
-                  Subscribed
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
+          <View className="w-[80px] h-[28px] top-1 justify-center">
+      <View className={`bg-${isFollowing ? '[#00cc00]' : '[#5c5c5caa]'}   rounded-full`}>
+        <TouchableOpacity
+          className="items-center justify-center p-1"
+          onPress={handleFollowToggle}
+        >
+          <Text
+            className="text-[#FFFFFF] text-[12px]"
+            style={{ fontFamily: "Poppins_400Regular" }}
+          >
+            {isFollowing ? "Unfollow" : "Follow"}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
         </View>
-        <Text
-                  className="text-[#080808] text-[8px]"
-                  style={{ fontFamily: "Poppins_400Regular" }}
-                >
-                  {item._id}
-                </Text>
+     
       </View>
     </View>
   );

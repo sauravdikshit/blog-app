@@ -113,32 +113,14 @@ export default function Follow({ navigation }) {
     }
   };
   console.log(" followersDatadata", followersData);
-  //      const {data} = followersData
-  //      console.log('====================================');
-  //      console.log(data);
-  //      console.log('====================================');
 
   const handleFollowStatusChange = async (userId, isFollowing) => {
     // make API call to update the follow status
 
-    // try {
-    //       const response = await followStatus.followStatus({
-    //             user_id: _id,
-    //             is_following: isFollowing,
-
-    //       })
-
-    //       console.log(response.data);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-
-    // console.log('====================================',isFollowing);
-
     try {
       const response = await followStatus.followStatus({
         userId: userId,
-        // is_following: isFollowing,
+        isfollowing: isFollowing,
       });
 
       console.log(response.data);
@@ -147,35 +129,20 @@ export default function Follow({ navigation }) {
     }
   };
 
+  const handleUnFollowStatusChange = async (userId, isFollowing) => {
+    // make API call to update the follow status
 
-  const handleFollowStatusChangeUnsub = async (userId, isFollowing) => {
-      // make API call to update the follow status
-  
-      // try {
-      //       const response = await followStatus.followStatus({
-      //             user_id: _id,
-      //             is_following: isFollowing,
-  
-      //       })
-  
-      //       console.log(response.data);
-      //     } catch (error) {
-      //       console.log(error);
-      //     }
-  
-      // console.log('====================================',isFollowing);
-  
-      try {
-        const response = await followStatusUnsub.followStatusUnsub({
-          userId: userId,
-          // is_following: isFollowing,
-        });
-  
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    try {
+      const response = await followStatusUnsub.unFollowStatus({
+        userId: userId,
+        isfollowing: isFollowing,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -205,7 +172,7 @@ export default function Follow({ navigation }) {
               <FollowCard
                 item={item}
                 onFollowStatusChange={handleFollowStatusChange}
-                onFollowStatusChangeUnsub={handleFollowStatusChangeUnsub}
+                onFollowStatusChangeUnsub={handleUnFollowStatusChange}
               />
             );
           }}

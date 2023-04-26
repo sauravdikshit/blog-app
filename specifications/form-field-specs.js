@@ -59,7 +59,7 @@ export const SPEC = {
   PASSWORD_FORMAT_INVALID: {
     isValid: (password) => !!password.match(PASSWORD_REGEX),
     message:
-      "Password must be 8 characters including one uppercase[A-Z] letter, one special character [@$!%*#?&] and alphanumeric characters [0-9,a-z]",
+      "Password must be minimum 10 characters including one uppercase[A-Z] letter, one special character [@$!%*#?&] and alphanumeric characters [0-9,a-z]",
   },
   CONFRIM_PASSWORD_REQUIRED: {
     isValid: (password) => password !== "",

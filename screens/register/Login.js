@@ -123,7 +123,7 @@ export default function Login({ navigation }) {
                 value={userPassword}
                 onChangeText={setUserPassword}
                 className="mt-4 px-4"
-                limit={8}
+                limit={16}
                 validations={passwordValidations}
                 secureTextEntry={confhidePass ? true : false}
                 icon="eye"

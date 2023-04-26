@@ -15,8 +15,7 @@ import { Divider } from "react-native-paper";
 import { DrawerActions } from "@react-navigation/native";
 
 const CustomDrawer = ({ navigation }) => {
-  const [userName, setUserName] = useState("Saurav Dikshit");
-  const [bio, setBio] = useState("I am dev");
+
   const [profileData, setProfileData] = useState([]);
 
   useEffect(() => {
@@ -90,7 +89,7 @@ const CustomDrawer = ({ navigation }) => {
           </Text>
 
           <Text
-            className=" relative text-[10px] text-[#FFF] self-center top-[1px]"
+            className=" relative text-[14px] text-[#FFF] self-center top-[1px]"
             style={{ fontFamily: "Poppins_400Regular" }}
           >
             {profileData.username}
@@ -107,6 +106,29 @@ const CustomDrawer = ({ navigation }) => {
           </View>
         </View>
       </View>
+      <Pressable
+          onPress={() => {
+            handleNavigation("FindPeople");
+          }}
+        >
+          <View className=" flex-row  items-center  p-2 ml-2 top-2">
+            <MaterialCommunityIcons
+              name={"account-search-outline"}
+              size={26}
+              color={"black"}
+            />
+
+            <View>
+              <Text
+                className="text-[15px] ml-3 text-[#000000]"
+                style={{ fontFamily: "Poppins_500Medium" }}
+              >
+                Find people
+              </Text>
+            </View>
+          </View>
+        </Pressable>
+        <Divider className="top-2" />
       <View className="mt-4 ">
         <View className="px-4">
           <Text
@@ -251,28 +273,7 @@ const CustomDrawer = ({ navigation }) => {
 
         <Divider className="top-2" />
 
-        <Pressable
-          onPress={() => {
-            handleNavigation("FindPeople");
-          }}
-        >
-          <View className=" flex-row  items-center  p-2 ml-2 top-2">
-            <MaterialCommunityIcons
-              name={"account-search-outline"}
-              size={26}
-              color={"black"}
-            />
-
-            <View>
-              <Text
-                className="text-[15px] ml-3 text-[#000000]"
-                style={{ fontFamily: "Poppins_500Medium" }}
-              >
-                Find people
-              </Text>
-            </View>
-          </View>
-        </Pressable>
+  
         <Divider className="top-2" />
 
         <View className="top-2">

@@ -160,7 +160,7 @@ export default function Signup({navigation}) {
               value={userPassword}
               onChangeText={setUserPassword}
               className="mt-4 px-4"
-              limit={8}
+              limit={16}
               validations={passwordValidations}
               secureTextEntry={confhidePass ? true : false}
               icon="eye"
@@ -175,7 +175,7 @@ export default function Signup({navigation}) {
               value={confirmPassword}
               onChangeText={setConfirmPassword}
               className="mt-4 px-4"
-              limit={8}
+              limit={16}
               validations={passwordValidations}
               secureTextEntry={hidePass ? true : false}
               icon="eye"
