@@ -44,21 +44,8 @@ export default function Fonts() {
     Poppins_900Black,
     Poppins_900Black_Italic,
   });
-  console.log("====================================");
-  console.log(useFonts({ Poppins_100Thin,
-      Poppins_100Thin_Italic,
-      Poppins_200ExtraLight,
-      Poppins_200ExtraLight_Italic,
-      Poppins_300Light,
-      Poppins_300Light_Italic,
-      Poppins_400Regular,
-      Poppins_400Regular_Italic,
-      Poppins_500Medium,
-      Poppins_500Medium_Italic,
-      Poppins_600SemiBold,
-      Poppins_600SemiBold_Italic,
-      Poppins_700Bold, }), "------------------------------");
-  console.log("====================================");
+
+
   if (!fontsLoaded) {
     return null;
   } else {

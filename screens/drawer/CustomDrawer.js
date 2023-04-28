@@ -9,33 +9,43 @@ import {
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import * as getProfile from "../../api/blogApi";
+import * as getProfile  from "../../api/blogApi";
 
 import { Divider } from "react-native-paper";
-import { DrawerActions } from "@react-navigation/native";
+import {  DrawerActions } from "@react-navigation/native";
+
 
 const CustomDrawer = ({ navigation }) => {
 
-  const [profileData, setProfileData] = useState([]);
+  const [profileData, setProfileData] = useState({});
+
 
   useEffect(() => {
     console.log("useeffect called");
 
-    getProfileData();
+    getProfileData()
+
+    
   }, []);
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     getProfileData();
+     
+  //    }, [])
+  //  );
 
   const getProfileData = async () => {
     try {
       const response = await getProfile.getProfile();
 
-      console.log(response.data);
-
-      console.log("ImageResponse", response.data);
       setProfileData(response.data);
+      
     } catch (error) {
       console.log(error);
     }
   };
+
   console.log(" profileData", profileData);
 
   // const topics = JSON.stringify(profileData.topic);
@@ -59,6 +69,7 @@ const CustomDrawer = ({ navigation }) => {
   // }, [greeting]);
 
   const handleNavigation = (screenName) => {
+    
     navigation.dispatch(DrawerActions.closeDrawer()); // closes the drawer
     navigation.navigate(screenName); // navigates to the specified screen
   };

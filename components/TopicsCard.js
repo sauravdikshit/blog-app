@@ -33,7 +33,7 @@ export default function TopicsCard({  item, selectedValue, handleSelectOption}) 
           </Text>
           <RadioButton
           value={item}
-        color="#66ff00"
+        color="#2ed708"
         uncheckedColor="black"
         status={selectedValue.includes(item) ? "checked" : "unchecked"}
             onPress={() => handleSelectOption(item)}

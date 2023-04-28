@@ -7,7 +7,7 @@ import Home from "./tabScreen/Home";
 import Search from "./tabScreen/Search";
 import Bookmark from "./tabScreen/Bookmark";
 import Profile from "./tabScreen/Profile"
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 
 const Tab = createMaterialBottomTabNavigator();

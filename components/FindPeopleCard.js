@@ -69,13 +69,13 @@ export default function FindPeopleCard({ item,onFollowStatusChange,onFollowStatu
 
 
         <View className="ml-4 bottom-2">
-      <View className={`bg-${isFollowing ? '[#00cc00]' : '[#5c5c5caa]'} w-[80px] h-[28px] rounded-full`}>
+      <View className={`bg-${isFollowing ? '[#2ed708]' : '[#000000]'} w-[80px] h-[28px] rounded-full justify-center`}>
         <TouchableOpacity
           className="items-center justify-center p-1"
           onPress={handleFollowToggle}
         >
           <Text
-            className="text-[#FFFFFF] text-[12px]"
+            className="text-[#FFFFFF] text-[12px] "
             style={{ fontFamily: "Poppins_400Regular" }}
           >
             {isFollowing ? "Unfollow" : "Follow"}

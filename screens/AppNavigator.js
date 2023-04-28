@@ -14,9 +14,10 @@ import ArticleDetails from "./ArticleDetails";
 import theme from '../theme'
 import { Provider as PaperProvider} from "react-native-paper";
 import MainScreen from "./MainScreen";
+import DrawerMain from "./drawer/DrawerMain";
 import FindPeople from "./FindPeople";
 
-// import DrawerNavigator from "./screens/drawer/DrawerNavigator";
+
 
 const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
@@ -40,8 +41,9 @@ export default function AppNavigator() {
            <Stack.Screen name="Signup" component={Signup} />
            <Stack.Screen name="Topics" component={Topics} />
            <Stack.Screen name="Follow" component={Follow} />
-
            <Stack.Screen name="MainScreen" component={MainScreen} />
+       
+         
            <Stack.Screen name="TextEditor" component={TextEditor} />
            <Stack.Screen name="ArticleDetails" component={ArticleDetails} />
            <Stack.Screen name="FindPeople" component={FindPeople}/> 

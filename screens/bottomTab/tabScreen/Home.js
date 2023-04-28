@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   SafeAreaView
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 
 import { FAB } from "react-native-paper";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -34,6 +34,7 @@ import TypeScript from "../topTabScreen/TypeScript";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
+// import * as userTopics from '../../../api/blogApi'
 
 
 
@@ -44,6 +45,28 @@ const Tab = createMaterialTopTabNavigator();
 export default function Home({ navigation }) {
   const { width } = useWindowDimensions();
   const [selectedTab, setSelectedTab] = useState(0);
+  // const [topicData,setTopicData] = useState([])
+
+// useEffect(() => {
+//   selectedUserTopic()
+// }, [])
+
+
+  // const selectedUserTopic = async () => {
+  //   try {
+  //     const response = await userTopics.userTopics();
+
+  //     console.log(response.data);
+  //     setTopicData(response.data)
+  //   } catch (error) {
+  //     if (error.response.status === 404) {
+  //       alert(error.response.status.message);
+  //     } else {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
+  // console.log("TOPICS DATA", topicData);
 
   return (
     <SafeAreaView className="  w-full h-full bg-[#F5F5F5]">
@@ -90,7 +113,7 @@ export default function Home({ navigation }) {
               console.log("state changed", e.data.state.index);
             },
           }}
-          initialRouteName="Latest"
+          initialRouteName={Latest}
           screenOptions={{
             tabBarPressColor: "#FFFFFF",
             tabBarInactiveTintColor: "#BDBDBD",
@@ -131,6 +154,25 @@ export default function Home({ navigation }) {
             },
           }}
         >
+
+{/* {tabs.map((tab, index) => (
+    <Tab.Screen
+      key={index}
+      name={tab.name}
+      component={tab.component}
+      options={{...}}
+    />
+  ))} */}
+{/* {topicData.map((tab,index)=>{
+  <Tab.Screen
+    key={index}
+    name={tab.topicData?.[1]?.topic}
+    component={Latest}
+    options={{
+              tabBarLabel: `Latest`,
+            }}
+  />
+})} */}
           <Tab.Screen
             name="Latest"
             component={Latest}
