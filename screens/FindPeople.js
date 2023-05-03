@@ -17,15 +17,12 @@ export default function FindPeople({ navigation }) {
   const [searchResults, setSearchResults] = useState([]);
   const [error,setError] = useState() 
 
-  const [searchTerm, setSearchTerm] = useState("");
 
-  // const [searchText, setSearchText] = useState("");
-  // const [filteredData, setFilteredData] = useState(null);
 
   useEffect(() => {
     // Function to fetch search results from the API
     const fetchSearchResults = async () => {
-      // const response = await fetch(`https://example.com/search?query=${searchQuery}`);
+  
       try {
         const response = await getPeople.getSearchPeople({
           query: searchQuery,
@@ -56,18 +53,7 @@ export default function FindPeople({ navigation }) {
     }
   }, [searchQuery]);
 
-  // const handleSearch = (text) => {
-  //   setSearchText(text);
-  //   const keywords = text.toLowerCase().split("");
-  //   const newData = Data.filter((item) => {
-  //     const itemData = item.name.toLowerCase();
 
-  //     return keywords.every((keyword) => itemData.includes(keyword));
-  //   });
-  //   setFilteredData(newData);
-  // };
-
-  // const renderItem = ({ item }) => <ArticleCard item={item} />;
 
   const handleFollowStatusChange = async (userId, isFollowing) => {
     // make API call to update the follow status
@@ -173,9 +159,15 @@ export default function FindPeople({ navigation }) {
             />
           </View>
         ) : searchQuery ? (
-          <View className="top-44" style={{ alignItems: "center", width }}>
+          <View className="top-32" style={{ alignItems: "center", width }}>
+          <LottieView
+            source={require("../assets/error-404-page-not-found.json")}
+            autoPlay
+            loop
+            style={{ width: 250, height: 250 }}
+          />
             <Text
-              className="text-[20px]"
+              className="text-[20px] bottom-12"
               style={{
                 fontFamily: "Poppins_500Medium",
               }}

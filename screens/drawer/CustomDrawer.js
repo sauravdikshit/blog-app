@@ -287,7 +287,7 @@ const CustomDrawer = ({ navigation }) => {
   
         <Divider className="top-2" />
 
-        <View className="top-2">
+        <View className="mt-36">
               <Text
                 className="text-[15px] ml-3 text-[#000000]"
                 style={{ fontFamily: "Poppins_500Medium" }}

@@ -1,11 +1,48 @@
 import { View, Text, SafeAreaView, Image, ScrollView } from "react-native";
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+
+import { useFocusEffect } from "@react-navigation/native";
 import { Appbar, Divider, Card } from "react-native-paper";
 import IconAsw from "react-native-vector-icons/MaterialIcons";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
+import * as ProfileViewData from '../../../api/blogApi'
 
 export default function Profile() {
+
+  const [profileViewData, setProfileViewData]= useState([])
+
+
+  useEffect(() => {
+    getProfile()
+ 
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+     getProfile();
+    }, [])
+  );
+
+  const getProfile = async () => {
+    try {
+      const response = await ProfileViewData.profileView();
+
+      console.log(response.data);
+      setProfileViewData(response.data);
+    } catch (error) {
+      if (error.response.status === 404) {
+        alert(error.response.status.message);
+      } else {
+        console.log(error);
+      }
+    }
+  };
+  console.log('===========Profile Data=========================');
+  console.log(profileViewData);
+  console.log('===========Profile Data=========================');
+
+
   return (
     <SafeAreaView className=" w-full h-full bg-[#e7e7e79f]">
       <Appbar.Header className="bg-[#F5F5F5] h-14 ">
@@ -19,7 +56,7 @@ export default function Profile() {
           <Image
             className="rounded-full w-[70px] h-[70px] "
             source={{
-              uri: "https://firebasestorage.googleapis.com/v0/b/myapp-cbe31.appspot.com/o/Avatar2.png?alt=media&token=0de8f265-809b-4593-a491-651902e7df05",
+              uri: profileViewData.profileimg,
             }}
           />
 
@@ -28,13 +65,13 @@ export default function Profile() {
               className="text-[20px] text-[#000000] "
               style={{ fontFamily: "Poppins_500Medium" }}
             >
-              Saurav Kumar
+              {profileViewData.name}
             </Text>
             <Text
               className="text-[13px] text-[#5e5e5ed3] bottom-1"
               style={{ fontFamily: "Poppins_500Medium" }}
             >
-              @sauravdikshit
+             {profileViewData.username}
             </Text>
 
             <View className="flex-row space-x-3">
@@ -42,19 +79,20 @@ export default function Profile() {
                 className="text-[15px] text-[#0b0b0b]"
                 style={{ fontFamily: "Poppins_500Medium" }}
               >
-                16 Posts
+      
+              {`${profileViewData.postscount} Posts`}
               </Text>
               <Text
                 className="text-[15px] text-[#0b0b0b]"
                 style={{ fontFamily: "Poppins_500Medium" }}
               >
-                22 Followers
+              {`${profileViewData.followerscount} Followers`}
               </Text>
               <Text
                 className="text-[15px] text-[#0b0b0b]"
                 style={{ fontFamily: "Poppins_500Medium" }}
               >
-                16 Following
+               {`${profileViewData.followingcount} Following`}
               </Text>
             </View>
           </View>

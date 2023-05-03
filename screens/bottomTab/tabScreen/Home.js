@@ -45,29 +45,7 @@ const Tab = createMaterialTopTabNavigator();
 export default function Home({ navigation }) {
   const { width } = useWindowDimensions();
   const [selectedTab, setSelectedTab] = useState(0);
-  // const [topicData,setTopicData] = useState([])
-
-// useEffect(() => {
-//   selectedUserTopic()
-// }, [])
-
-
-  // const selectedUserTopic = async () => {
-  //   try {
-  //     const response = await userTopics.userTopics();
-
-  //     console.log(response.data);
-  //     setTopicData(response.data)
-  //   } catch (error) {
-  //     if (error.response.status === 404) {
-  //       alert(error.response.status.message);
-  //     } else {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-  // console.log("TOPICS DATA", topicData);
-
+ 
   return (
     <SafeAreaView className="  w-full h-full bg-[#F5F5F5]">
       
