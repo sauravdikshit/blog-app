@@ -12,6 +12,8 @@ const { width, height } = Dimensions.get("window");
 import * as searchArticleData from "../../../api/blogApi";
 import * as clapArticle from "../../../api/blogApi";
 import * as unClapArticle from "../../../api/blogApi";
+import * as bookmarkArticleData from '../../../api/blogApi'
+import * as unbookmarkArticleData from '../../../api/blogApi'
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -95,6 +97,36 @@ export default function Search() {
       console.error(error);
     }
   };
+
+  const handleBookmarkStatus = async (id, isBookmark) => {
+    // make API call to update the follow status
+
+    try {
+      const response = await bookmarkArticleData.bookmarkArticle({
+        ArticleId: id,
+        isBookmark: isBookmark,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUnBookmarkStatus = async (id, isBookmark) => {
+    // make API call to update the follow status
+
+    try {
+      const response = await unbookmarkArticleData.unBookmarkArticle({
+        ArticleId: id,
+        isBookmark: isBookmark,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <SafeAreaView className=" w-full h-full bg-[#F5F5F5] ">
       <Appbar.Header className="bg-[#F5F5F5] h-14 ">
@@ -168,7 +200,9 @@ export default function Search() {
               item={item}
               handleClap={(articleId) => handleClap(articleId)}
                   handleUnclap={(articleId) => handleUnclap(articleId)}
-                  clapCount={item.article_clap} />;
+                  clapCount={item.article_clap}
+                  onBookmarkStatus={handleBookmarkStatus}
+                  onUnBookmarkStatus={handleUnBookmarkStatus} />;
             }}
           />
         </View>

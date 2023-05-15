@@ -13,6 +13,10 @@ import axiosInstanceSearchArticle from "./articleSearch";
 import axiosInstanceBookmark from '../api/bookmark' ;
 import axiosInstanceUnBookmark from '../api/unBookmark' ;
 import axiosInstanceGetBookmark from "./getBookmark";
+import axiosInstanceUpdateProfile from "./updateProfile";
+import axiosInstanceRecentActivity from "./recentActivity";
+import axiosInstanceGetArticle from "./getArticle";
+import axiosInstanceGetTabTopics from "./getTabTopics";
 
 export const userRegistration = (data) =>
   axiosInstanceReg.post("/api/users/register", data);
@@ -35,7 +39,7 @@ export const unFollowStatus = (data) =>
   axiosInstanceGetFollowers.post("/api/users/unfollow", data);
 
 export const getProfile = (data) =>
-  axiosInstanceGetProfile.get("/api/profile", data);
+  axiosInstanceGetProfile.post("/api/profile", data);
 
 export const getSearchPeople = (data) =>
   axiosInstanceSearchPeople.post("/api/users/search", data);
@@ -46,8 +50,15 @@ export const articlePublish = (data) =>
 export const userTopics = (data) =>
   axiosInstanceUserTopics.get("/api/selected/getusertopics", data);
 
+///api/selected/gettabtopics
+
+
+export const getTabTopics = (data) =>
+  axiosInstanceGetTabTopics.get("/api/selected/gettabtopics", data);
+
+
   export const latestArticle = (data) =>
-  axiosInstanceLatestArticle.get("/api/article/getlatest", data);
+  axiosInstanceLatestArticle.post("/api/article/getlatest", data);
 
   export const clap = (data) =>
   axiosInstanceLatestArticle.post("/api/article/clap", data); 
@@ -69,3 +80,12 @@ export const userTopics = (data) =>
 
  export const getBookmark = ()=>
  axiosInstanceGetBookmark.post("/api/article/getbook") 
+
+ export const updateProfile = (data)=>
+ axiosInstanceUpdateProfile.put("/api/profile/update",data) 
+
+ export const recentActivity = (data)=>
+ axiosInstanceRecentActivity.post("/api/profile/recent",data) 
+
+ export const getArticle = (data)=>
+ axiosInstanceGetArticle.post("/api/article",data) 

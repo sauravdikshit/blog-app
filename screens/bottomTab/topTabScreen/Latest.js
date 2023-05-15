@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList } from "react-native";
+import { View, Text, SafeAreaView, FlatList,ActivityIndicator } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 
 import { useFocusEffect } from "@react-navigation/native";
@@ -14,6 +14,9 @@ export default function Latest() {
   const [latestArticleData, setLatestArticleData] = useState([]);
   const [clapStatus, setClapStatus] = useState(false);
   const [clapCount, setClapCount] = useState();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     getLatestArticle();
@@ -25,8 +28,15 @@ export default function Latest() {
     }, [])
   );
 
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    getLatestArticle();
+    setRefreshing(false);
+  }, []); 
+
   const getLatestArticle = async () => {
     try {
+      setLoading(true)
       const response = await latestArticle.latestArticle();
 
       console.log(response.data);
@@ -110,6 +120,8 @@ export default function Latest() {
             colors={['#000',"#FFFa", '#000']}
             start={{ x: 2, y: 1 }}
             end={{ y: 1, x: 1 }}/> */}
+
+         
       {latestArticleData && (
         <View className=" flex-1 top-2 mb-16">
           <FlatList
@@ -128,6 +140,8 @@ export default function Latest() {
                 />
               );
             }}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
           />
         </View>
       )}

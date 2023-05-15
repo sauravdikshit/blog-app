@@ -87,7 +87,7 @@ const CustomDrawer = ({ navigation }) => {
         <View className="flex-col mt-8 ">
           <View className=" items-center justify-center w-32 h-32  rounded-full border border-[#FFF] self-center">
             <Image
-              className="w-full h-full "
+              className="w-full h-full rounded-full "
               source={{ uri: profileData.profileimage }}
             />
           </View>

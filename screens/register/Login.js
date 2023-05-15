@@ -65,11 +65,7 @@ export default function Login({ navigation }) {
 
       await   AsyncStorage.setItem('authToken',userToken)
     } catch (error) {
-      if (error.response.status === 401) {
-        alert(error.response.data.message);
-      } else {
-        console.log(error);
-      }
+      console.log(error)
     }
   };
   return (

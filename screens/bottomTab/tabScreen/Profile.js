@@ -7,8 +7,9 @@ import IconAsw from "react-native-vector-icons/MaterialIcons";
 import Icon from "react-native-vector-icons/Ionicons";
 import IconMat from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ProfileViewData from '../../../api/blogApi'
+import { Pressable } from "react-native";
 
-export default function Profile() {
+export default function Profile({navigation}) {
 
   const [profileViewData, setProfileViewData]= useState([])
 
@@ -52,13 +53,19 @@ export default function Profile() {
         />
       </Appbar.Header>
       <View className="px-4">
+
+    
+      <Pressable onPress={()=>{navigation.navigate("MainProfile")}}>
         <View className="flex-row  mt-2  space-x-5">
+   
+
           <Image
             className="rounded-full w-[70px] h-[70px] "
             source={{
               uri: profileViewData.profileimg,
             }}
           />
+              
 
           <View className="flex-col  justify-center">
             <Text
@@ -97,6 +104,8 @@ export default function Profile() {
             </View>
           </View>
         </View>
+        </Pressable> 
+    
 
         <View className="mt-4">
           <Card
@@ -105,7 +114,9 @@ export default function Profile() {
               elevation: 0,
             }}
           >
+         
             <View className="flex-row justify-between m-4  mt-4 ">
+      
             <View className="flex-row space-x-2">
             <IconAsw
                 onPress={() => {
@@ -130,6 +141,7 @@ export default function Profile() {
                 color="gray"
               />
             </View>
+      
 
             <Divider />
 
@@ -168,6 +180,7 @@ export default function Profile() {
               elevation: 0,
             }}
           >
+                 <Pressable onPress={()=>{navigation.navigate("MainProfile")}}>
             <View className="flex-row justify-between m-4  mt-4 ">
             <View className="flex-row space-x-2">
             <IconAsw
@@ -185,14 +198,13 @@ export default function Profile() {
             </View>
               
               <IconAsw
-                onPress={() => {
-                  // navigation.navigate("Orders");
-                }}
+                onPress={()=>{navigation.navigate("MainProfile")}}
                 name="arrow-forward-ios"
                 size={18}
                 color="gray"
               />
             </View>
+            </Pressable>
 
             <Divider />
 

@@ -1,10 +1,15 @@
 import { View, Text, SafeAreaView, FlatList } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
 import { TextInput, Appbar } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { useFocusEffect } from "@react-navigation/native";
 import ArticleCard from "../../../components/ArticleCard";
 import * as getBookmarkData from '../../../api/blogApi'
+import * as clapArticle from '../../../api/blogApi'
+import * as unClapArticle from '../../../api/blogApi'
+import * as bookmarkArticle from '../../../api/blogApi'
+import * as unbookmarkArticle from '../../../api/blogApi'
 
 export default function Bookmark() {
   const [bookmarkArticleData, setBookmarkArticleData] = useState([]);
@@ -43,6 +48,69 @@ export default function Bookmark() {
     }
   };
   console.log("BookmarktData", bookmarkArticleData);
+
+  const handleClap = async (articleId, isClapped) => {
+    try {
+      const response = await clapArticle.clap({
+        articleId: articleId,
+        isclapped: isClapped,
+      });
+      console.log("clapped data", response.data);
+      if (response.ok) {
+        console.log("clapped ok", response.ok);
+        setClapCount((prevCount) => prevCount + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnclap = async (articleId, isClapped) => {
+    try {
+      const response = await unClapArticle.unClap({
+        articleId: articleId,
+        isclapped: isClapped,
+      });
+      console.log("unclapped data", response.data);
+      if (response.ok) {
+        console.log("clapped ok", response.ok);
+        setClapCount((prevCount) => prevCount - 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleBookmarkStatus = async (id, isBookmark) => {
+    // make API call to update the follow status
+
+    try {
+      const response = await bookmarkArticle.bookmarkArticle({
+        ArticleId: id,
+        isBookmark: isBookmark,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUnBookmarkStatus = async (id, isBookmark) => {
+    // make API call to update the follow status
+
+    try {
+      const response = await unbookmarkArticle.unBookmarkArticle({
+        ArticleId: id,
+        isBookmark: isBookmark,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   return (
     <SafeAreaView className="  w-full h-full bg-[#F5F5F5]">
@@ -123,6 +191,11 @@ export default function Bookmark() {
             return (
               <ArticleCard
                 item={item}
+                handleClap={(articleId) => handleClap(articleId)}
+                  handleUnclap={(articleId) => handleUnclap(articleId)}
+                  clapCount={item.article_clap}
+                  onBookmarkStatus={handleBookmarkStatus}
+                  onUnBookmarkStatus={handleUnBookmarkStatus}
                
               />
             );

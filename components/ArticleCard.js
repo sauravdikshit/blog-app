@@ -66,12 +66,14 @@ export default function ArticleCard({
     <View className="">
       <View className="px-4">
         <View className=" flex-row items-center space-x-2 ">
+        <Pressable onPress={()=>{navigation.navigate("MainProfile",{item})}}>
           <Image
             className="rounded-full w-10 h-10"
             source={{
               uri: item.user_image,
             }}
           />
+          </Pressable>
           <View className="flex-col ">
             <Text
               className="text-[16px] text-[#000000]"

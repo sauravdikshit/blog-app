@@ -6,23 +6,23 @@ import {
   Platform,
   TouchableOpacity,
   Text,
-Alert,
-  Pressable
+  Alert,
+  Pressable,
 } from "react-native";
-import React ,{useState,useMemo} from "react";
+import React, { useState, useMemo } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import {useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
 import Form from "../../components/Form/context";
 import FormField from "../../components/Form/FormField";
 import { SPEC } from "../../specifications/form-field-specs";
 import FormSubmit from "../../components/Form/FormSubmit";
 import { ScrollView } from "react-native-gesture-handler";
-import * as RegistrationApi from '../../api/blogApi'
+import * as RegistrationApi from "../../api/blogApi";
 
-export default function Signup({navigation}) {
+export default function Signup({ navigation }) {
   const theme = useTheme();
-  const [name,setName] =useState("Saurav Kumar")
+  const [name, setName] = useState("Saurav Kumar");
   const [username, setUserName] = useState("@Saurav");
 
   const [userEmail, setUserEmail] = useState("sauravkumar937@gmail.com");
@@ -41,7 +41,7 @@ export default function Signup({navigation}) {
     SPEC.EMAIL_FORMAT_INVALID,
   ]);
   const userNameValidations = useMemo(() => [
-    SPEC. USERNAME_REQUIRED,
+    SPEC.USERNAME_REQUIRED,
     SPEC.USERNAME_VALID,
   ]);
   const passwordValidations = useMemo(() => [
@@ -57,36 +57,29 @@ export default function Signup({navigation}) {
         email: userEmail,
         password: confirmPassword,
       });
-      if(response.data.message =="Registered Successfully!"){
-       
-            navigation.navigate("Login")
-            Alert.alert(response.data.message);
-           
-      }else{
-            console.log("Something is wrrong");
+      if (response.data.message == "Registered Successfully!") {
+        navigation.navigate("Login");
+        Alert.alert(response.data.message);
+      } else {
+        console.log("Something is wrrong");
       }
       console.log(response.data);
     } catch (error) {
-      if (error.response.status === 400) {
-        alert(error.response.data.message);
-      } else {
+     
         console.log(error);
-      }
+    
     }
   };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-    
     >
       <SafeAreaView className=" w-full h-full">
-     
-         <View  className="absolute w-full h-full flex flex-col justify-between top-0">
-        
-        <Image
-          className="w-full h-full"
-          source={require("../../assets/student.jpg")}
-        /> 
+        <View className="absolute w-full h-full flex flex-col justify-between top-0">
+          <Image
+            className="w-full h-full"
+            source={require("../../assets/student.jpg")}
+          />
         </View>
         <LinearGradient
           className=" absolute w-full h-full left-0 right-0 bottom-0 top-0 "
@@ -94,115 +87,103 @@ export default function Signup({navigation}) {
           start={{ x: 3, y: 1 }}
           end={{ y: -1, x: 2 }}
         />
-       
-      
-         
-<ScrollView className="bottom-8">
-<View className="absolute w-full h-full flex flex-col justify-between top-0">
+
+        <ScrollView className="bottom-8">
+          <View className="absolute w-full h-full flex flex-col justify-between top-0">
             <View className="flex justify-center items-center h-4/6">
               <Image
                 className="w-[80px] h-[90px] mb-40"
                 source={require("../../assets/icon-blog.png")}
               />
             </View>
-            </View>
+          </View>
 
-      
-        
-          
-              <View className=" relative items-center mt-80 ">
-          
-                <Form>
-            <FormField
-              required
-             
-              keyboardType="default"
-              placeholder="Full Name"
-              mode="outlined"
-             iconLeft="account"
-              value={name}
-              onChangeText={setName}
-              className="mt-8 px-4"
-              limit={18}
-              validations={nameValidations}
-            />
-             <FormField
-              required
-              keyboardType="default"
-              placeholder="@Username"
-              mode="outlined"
-              iconLeft="at"
-              editable
-              value={username}
-              onChangeText={setUserName}
-              className="mt-4 px-4"
-              limit={18}
-              validations={userNameValidations}
-            />
-            <FormField
-              required
-              keyboardType="default"
-              placeholder="Email"
-              mode="outlined"
-              iconLeft="email"
-              editable
-              value={userEmail}
-              onChangeText={setUserEmail}
-              className="mt-4 px-4"
-              validations={emailValidations}
-            />
-            <FormField
-         
-              keyboardType="default"
-              placeholder="Password"
-              mode="outlined"
-              iconLeft="form-textbox-password"
-              value={userPassword}
-              onChangeText={setUserPassword}
-              className="mt-4 px-4"
-              limit={16}
-              validations={passwordValidations}
-              secureTextEntry={confhidePass ? true : false}
-              icon="eye"
-              onPress={() => setConfHidePass(!confhidePass)}
-            />
-            <FormField
-            
-              keyboardType="default"
-              placeholder="Confirm Password"
-              mode="outlined"
-             iconLeft="form-textbox-password"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              className="mt-4 px-4"
-              limit={16}
-              validations={passwordValidations}
-              secureTextEntry={hidePass ? true : false}
-              icon="eye"
-              onPress={() => setHidePass(!hidePass)}
-            />
-            <FormSubmit
-             className="justify-center items-center bg-[#808080]  rounded-[8px] w-[360px] h-[46px] mt-4 px-4"
-             mode="contained"
-            
-              
-              onPress={() => {
-                if (userPassword === confirmPassword) {
-                  registerUser();
-                } else {
-                  alert("Password is not match");
-                }
-              }}
-            
-            >
-              <Text
-               className="text-[#FFFFFF] text-[16px]"
-                    style={{  fontFamily: "Poppins_500Medium" }}
+          <View className=" relative items-center mt-80 ">
+            <Form>
+              <FormField
+                required
+                keyboardType="default"
+                placeholder="Full Name"
+                mode="outlined"
+                iconLeft="account"
+                value={name}
+                onChangeText={setName}
+                className="mt-8 px-4"
+                limit={18}
+                validations={nameValidations}
+              />
+              <FormField
+                required
+                keyboardType="default"
+                placeholder="@Username"
+                mode="outlined"
+                iconLeft="at"
+                editable
+                value={username}
+                onChangeText={setUserName}
+                className="mt-4 px-4"
+                limit={18}
+                validations={userNameValidations}
+              />
+              <FormField
+                required
+                keyboardType="default"
+                placeholder="Email"
+                mode="outlined"
+                iconLeft="email"
+                editable
+                value={userEmail}
+                onChangeText={setUserEmail}
+                className="mt-4 px-4"
+                validations={emailValidations}
+              />
+              <FormField
+                keyboardType="default"
+                placeholder="Password"
+                mode="outlined"
+                iconLeft="form-textbox-password"
+                value={userPassword}
+                onChangeText={setUserPassword}
+                className="mt-4 px-4"
+                limit={16}
+                validations={passwordValidations}
+                secureTextEntry={confhidePass ? true : false}
+                icon="eye"
+                onPress={() => setConfHidePass(!confhidePass)}
+              />
+              <FormField
+                keyboardType="default"
+                placeholder="Confirm Password"
+                mode="outlined"
+                iconLeft="form-textbox-password"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                className="mt-4 px-4"
+                limit={16}
+                validations={passwordValidations}
+                secureTextEntry={hidePass ? true : false}
+                icon="eye"
+                onPress={() => setHidePass(!hidePass)}
+              />
+              <FormSubmit
+                className="justify-center items-center bg-[#808080]  rounded-[8px] w-[360px] h-[46px] mt-4 px-4"
+                mode="contained"
+                onPress={() => {
+                  if (userPassword === confirmPassword) {
+                    registerUser();
+                  } else {
+                    alert("Password is not match");
+                  }
+                }}
               >
-                SIGNUP
-              </Text>
-            </FormSubmit>
-            {/* <Button
+                <Text
+                  className="text-[#FFFFFF] text-[16px]"
+                  style={{ fontFamily: "Poppins_500Medium" }}
+                >
+                  SIGNUP
+                </Text>
+              </FormSubmit>
+              {/* <Button
             className="bg-green-600 rounded-full top-8 h-12 bottom-8 m-20 justify-center"
             onPress={() => {
               navigation.navigate("Login" ,{name:name})
@@ -210,31 +191,33 @@ export default function Signup({navigation}) {
           >
             <Text className="text-white text-base">send data</Text>
           </Button> */}
-          </Form>
+            </Form>
+          </View>
+        </ScrollView>
+        <View className="px-4 mb-4">
+          <View className="flex-row justify-between">
+            <Text
+              className="text-white text-[14px]"
+              style={{ fontFamily: "Poppins_500Medium" }}
+            >
+              Forgot Password
+            </Text>
 
-               
-              </View>
-             
-         
-        
-
-</ScrollView>
-<View className="px-4 mb-4">
-  
- <View className="flex-row justify-between">
-                <Text className="text-white text-[14px]" style={{ fontFamily: "Poppins_500Medium" }}>Forgot Password</Text>
-
-                <Pressable  onPress={()=>{navigation.navigate("Login")}}>
-                <Text className="text-white font-bold text-[14px]" style={{ fontFamily: "Poppins_500Medium" }}>Sign in ?</Text>
-
-                </Pressable>
-               
-              </View>
-              
-</View>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text
+                className="text-white font-bold text-[14px]"
+                style={{ fontFamily: "Poppins_500Medium" }}
+              >
+                Sign in ?
+              </Text>
+            </Pressable>
+          </View>
+        </View>
       </SafeAreaView>
-
-
     </KeyboardAvoidingView>
   );
 }

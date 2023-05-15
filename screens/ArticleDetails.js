@@ -1,23 +1,51 @@
 import { View, Text,Image,TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Appbar } from 'react-native-paper'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from "@react-navigation/native";
 import * as followStatus from "../api/blogApi";
 import * as followStatusUnsub from "../api/blogApi";
+import * as getArticleById from '../api/blogApi'
+
+
 
 export default function ArticleDetails({ route }) {
   const { item } = route.params;
   console.log(item,"ITEM____________");
-      const [select, setSelect] = useState("1");
+     
       const [isFollowing, setIsFollowing] = useState(item.isfollowing);
+      const [articleData,setArticleData] = useState([])
       // console.log('====================================');
       console.log("follow Status",isFollowing);
       // console.log('====================================');
       const navigation = useNavigation();
-
-
+      useEffect(() => {
+        getArticle();
+      }, []);
+      
+      const getArticle = async () => {
+        try {
+          const response = await getArticleById.getArticle({
+            articleId:item._id
+          });
+          console.log("========================Article Data=====================================");
+    
+          console.log(response.data);
+          console.log("=============================================================");
+          setArticleData(response.data);
+        } catch (error) {
+          if (error.response.status === 404) {
+            alert(error.response.status.message);
+          } else {
+            console.log(error);
+          }
+        }
+      };
+      console.log("========================Article Data use stat=====================================");
+    
+      console.log(articleData);
+      console.log("=============================================================");
       
   const handleFollowStatusChange = async (userId, isFollowing) => {
     // make API call to update the follow status
@@ -55,10 +83,10 @@ export default function ArticleDetails({ route }) {
       
         if (!isFollowing) {
           // user is being followed
-          handleFollowStatusChange(item.user_id, true);
+          handleFollowStatusChange(articleData.user_id, true);
         } else {
           // user is being unfollowed
-          handleUnFollowStatusChange(item.user_id, false);
+          handleUnFollowStatusChange(articleData.user_id, false);
         }
       
        
@@ -81,7 +109,7 @@ export default function ArticleDetails({ route }) {
             <Image
           className=" w-full h-[184px]"
           source={{
-              uri: item.article_image,
+              uri: articleData.article_image,
             }}
         />
 
@@ -90,13 +118,13 @@ export default function ArticleDetails({ route }) {
 
             <View className="flex-col mt-2 space-y-1 px-4">
         <Text className="text-[29px]" style={{ fontFamily: "Poppins_700Bold" }}>
-          {item.article_title}
+          {articleData.article_title}
         </Text>
         <Text
           className="text-[17px] text-[#5e5d5d]"
           style={{ fontFamily: "Poppins_500Medium" }}
         >
-          {item.article_sub}
+          {articleData.article_sub}
         </Text>
       </View>
      <View className="w-full h-14 ">
@@ -104,7 +132,7 @@ export default function ArticleDetails({ route }) {
         <Image
           className="rounded-full w-14 h-14 right-4"
           source={{
-              uri: item.user_image,
+              uri: articleData.user_image,
             }}
         />
 
@@ -114,20 +142,20 @@ export default function ArticleDetails({ route }) {
             className="text-[18px] text-[#000000]"
             style={{ fontFamily: "Poppins_500Medium" }}
           >
-            {item.user_name}
+            {articleData.user_name}
           </Text>
           <Text
             className="text-[10px] text-[#5e5d5d]"
             style={{ fontFamily: "Poppins_400Regular" }}
           >
-           {item.createdAt}
+           {articleData.createdAt}
           </Text>
       
         </View>
       
         <View className="left-4" >
-        {item.currentuser== false ? (   
-          <View className="w-[80px] h-[28px] top-1 justify-center">
+        {articleData.currentuser === true ? ( <></>  
+   ):(       <View className="w-[80px] h-[28px] top-1 justify-center">
       <View className={`bg-${isFollowing ? '[#2ed708]' : '[#000000]'}   rounded-full`}>
         <TouchableOpacity
           className="items-center justify-center p-1 "
@@ -141,7 +169,7 @@ export default function ArticleDetails({ route }) {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>):(<></>)}
+    </View>)}
      
         </View>
        
@@ -155,7 +183,7 @@ export default function ArticleDetails({ route }) {
    
       <View className="px-4 mt-12">
             <Text className="text-[17px] text-[#010101]"
-          style={{ fontFamily: "Poppins_500Medium" }}>{item.article_desc}</Text>
+          style={{ fontFamily: "Poppins_500Medium" }}>{articleData.article_desc}</Text>
         </View>
       
       </ScrollView>

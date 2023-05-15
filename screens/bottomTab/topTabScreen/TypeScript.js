@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView,FlatList } from 'react-native'
 import React from 'react'
-import ArticleCard from '../../../components/ArticleCard'
+
 
 
 const Data=[
@@ -82,20 +82,7 @@ export default function TypeScript() {
   return (
     <SafeAreaView className="w-full h-full bg-[#]">
       <View className=" flex-1 top-2 mb-16">
-        <FlatList
-        showsVerticalScrollIndicator={false}
-        
-          data={Data}
-          keyExtractor={(item, index) => "key" + index}
-          renderItem={({ item }) => {
-            return (
-              <ArticleCard
-                item={item}
-               
-              />
-            );
-          }}
-        />
+  <Text>Type Scrtpt</Text>
       </View>
    </SafeAreaView>
   )
